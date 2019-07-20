@@ -1,0 +1,5 @@
+namespace :items do
+  task :fetch => :environment do
+    response = RestClient.get "https://us.battle.net/oauth/token"
+  end
+end

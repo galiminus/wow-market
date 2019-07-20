@@ -1,0 +1,2 @@
+class AuctionInfo < ApplicationRecord
+end
