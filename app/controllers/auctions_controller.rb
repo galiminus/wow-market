@@ -1,5 +1,7 @@
 class AuctionsController < ApplicationController
   def index
-    @auctions = Auction.all
+    @auctions = Auction.includes(:auction_infos).all
+
+    render json: @auctions
   end
 end
