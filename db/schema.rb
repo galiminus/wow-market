@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_110327) do
+ActiveRecord::Schema.define(version: 2019_07_30_141332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_07_24_110327) do
     t.bigint "auc"
     t.bigint "item"
     t.string "owner"
+    t.string "region"
     t.string "owner_realm"
     t.integer "quantity"
     t.bigint "buyout"
@@ -44,6 +45,17 @@ ActiveRecord::Schema.define(version: 2019_07_24_110327) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_items_on_item_id"
+  end
+
+  create_table "realms", force: :cascade do |t|
+    t.string "region"
+    t.string "name"
+    t.string "slug"
+    t.string "battlegroup"
+    t.string "locale"
+    t.string "population"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

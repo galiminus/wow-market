@@ -4,6 +4,7 @@ class CreateAuctions < ActiveRecord::Migration[5.2]
       t.bigint :auc, index: true
       t.bigint :item
       t.string :owner
+      t.string :region
       t.string :owner_realm
       t.integer :quantity
       t.bigint :buyout
