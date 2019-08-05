@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   # get '/', to: 'auctions#index
   # get '/' => 'auctions#index'
   root 'auctions#index'
-  get '/:locale/:region/:realm', to: 'auctions#index'
+
+#  get '/:locale/:region/:realm', to: 'auctions#index'
 end
