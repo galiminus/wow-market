@@ -8,6 +8,8 @@ class CreateAuctions < ActiveRecord::Migration[5.2]
       t.string :owner_realm
       t.integer :quantity
       t.bigint :buyout
+      t.bigint :bid
+      t.string :time_left
       t.timestamps
     end
   end

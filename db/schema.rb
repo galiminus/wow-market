@@ -15,15 +15,6 @@ ActiveRecord::Schema.define(version: 2019_07_30_141332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "auction_infos", force: :cascade do |t|
-    t.bigint "bid"
-    t.string "time_left"
-    t.bigint "auction_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["auction_id"], name: "index_auction_infos_on_auction_id"
-  end
-
   create_table "auctions", force: :cascade do |t|
     t.bigint "auc"
     t.bigint "item"
@@ -32,6 +23,8 @@ ActiveRecord::Schema.define(version: 2019_07_30_141332) do
     t.string "owner_realm"
     t.integer "quantity"
     t.bigint "buyout"
+    t.bigint "bid"
+    t.string "time_left"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["auc"], name: "index_auctions_on_auc"

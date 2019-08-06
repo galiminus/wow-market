@@ -35,7 +35,6 @@ namespace :auctions do
                 auction_record.owner_realm = auction['ownerRealm']
                 auction_record.quantity = auction['quantity']
                 auction_record.buyout = auction['buyout']
-                auction_record.bid = auction['bid']
                 auction_record.created_at = Time.now
                 auction_record.updated_at = auction_record.created_at
               end
