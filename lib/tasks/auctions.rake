@@ -16,47 +16,30 @@ namespace :auctions do
       puts "\tStoring #{JSON.parse(response.body)['auctions'].size} auctions... "
       i = 0
 
-      auctions_by_auc = Auction.where(owner_realm: realm.name).group_by(&:auc)
+      # auctions_by_auc = Auction.where(owner_realm: realm.name).group_by(&:auc)
       auctions = JSON.parse(response.body)['auctions']
 
-      auction_infos_attributes = []
-      auction_ids = Auction.bulk_insert(return_primary_keys: true, update_duplicates: true) do |auction_worker|
-        auctions[0..1000].each do |auction|
+      Auction.bulk_insert do |auction_worker|
+        auctions.each do |auction|
           print "\r#{i}/#{auctions.size}"
 
-          auction_record =
-            if (auction_records = auctions_by_auc[auction['auc']])
-              auction_records.first
-            else
-              Auction.new(auc: auction['auc']).tap do |auction_record|
-                auction_record.item = auction['item']
-                auction_record.owner = auction['owner']
-                auction_record.region = realm.region
-                auction_record.owner_realm = auction['ownerRealm']
-                auction_record.quantity = auction['quantity']
-                auction_record.buyout = auction['buyout']
-                auction_record.bid = auction['bid']
-                auction_record.created_at = Time.now
-                auction_record.updated_at = auction_record.created_at
-              end
-            end
-          auction_infos_attributes.push({
-                               bid: auction['bid'],
-                               time_left: auction['timeLeft'],
-                             })
+          auction_record = Auction.new(auc: auction['auc']).tap do |auction_record|
+            auction_record.item = auction['item']
+            auction_record.owner = auction['owner']
+            auction_record.region = realm.region
+            auction_record.owner_realm = auction['ownerRealm']
+            auction_record.quantity = auction['quantity']
+            auction_record.buyout = auction['buyout']
+            auction_record.bid = auction['bid']
+            auction_record.time_left = auction['timeLeft']
+            auction_record.created_at = Time.now
+            auction_record.updated_at = auction_record.created_at
+          end
           i = i + 1
-
           auction_worker.add(auction_record.attributes)
         end
-        puts
       end
-
-      byebug
-      AuctionInfo.bulk_insert do |worker|
-        auction_infos_attributes.each.with_index do |auction_info_attributes, index|
-          worker.add(auction_info_attributes.merge(auction_id: auction_ids[index]))
-        end
-      end
+      puts
     end
   end
 end

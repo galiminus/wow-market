@@ -1,6 +1,6 @@
 class AuctionsController < ApplicationController
   def index
-    byebug
+    # byebug
     # @auctions = Auction.includes(:auction_infos).all
     
     # render json: @auctions

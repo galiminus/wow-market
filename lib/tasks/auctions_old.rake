@@ -1,4 +1,4 @@
-namespace :auctions do
+namespace :auctions_old do
   task :fetch, [:region, :client_id, :client_secret] => :environment do |task, args|
     access_token = app_auth(args[:region], args[:client_id], args[:client_secret])
     

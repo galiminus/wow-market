@@ -37,13 +37,10 @@ namespace :tests do
                        region: regions.sample,
                        owner_realm: realms.sample,
                        quantity: rand(1..200),
-                       buyout: rand(1..1000000000000)
+                       buyout: rand(1..1000000000000),
+                       bid: 0,
+                       time_left: "VERY_LONG",
                      })
-      AuctionInfo.create({
-                           auction: auction_record,
-                           bid: 0,
-                           time_left: "VERY_LONG",
-                         })
     end
     puts
     
@@ -64,7 +61,7 @@ namespace :tests do
     end
 
     regions = ["eu", "us", "kr", "tw"]
-    
+
     (1..1000).each do |i|
       print "\r#{i}/1000"
       region = regions.sample
@@ -75,13 +72,10 @@ namespace :tests do
                        region: region,
                        owner_realm: realms[region].sample,
                        quantity: rand(1..200),
-                       buyout: rand(1..1000000000000)
+                       buyout: rand(1..1000000000000),
+                       bid: 0,
+                       time_left: "VERY_LONG",
                      })
-      AuctionInfo.create({
-                           auction: auction_record,
-                           bid: 0,
-                           time_left: "VERY_LONG",
-                         })
     end
     puts
     
