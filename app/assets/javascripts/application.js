@@ -16,6 +16,7 @@
 //= require ./materialize
 //= require_tree .
 
+
 function region_change()
 {
     realm_select = document.getElementById("realm-select");
@@ -27,15 +28,15 @@ function region_change()
     selectedRegion = options[options.selectedIndex].text;
     realm_select = document.getElementById("realm-select");
     for (i in realms[selectedRegion]) {
-	realm_select.options.add(new Option(realms[selectedRegion][i], parseInt(i) + 1), realm_select.options[realm_select.options.length]);
+	realm_select.options.add(new Option(realms[selectedRegion][i], realms[selectedRegion][i]), realm_select.options[realm_select.options.length]);
     }
     $('select').formSelect();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    $('select').formSelect();
+// document.addEventListener('DOMContentLoaded', function() {
+//     $('select').formSelect();
 
-    $('#region-select').change(region_change);
-    // $('#region-select').val(0);
-    $('#region-select').trigger('change', true);
-});
+//     $('#region-select').change(region_change);
+//     // $('#region-select').val(0);
+//     $('#region-select').trigger('change', true);
+// });

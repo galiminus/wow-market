@@ -1,0 +1,27 @@
+<div class="row">
+  <table id="auctions_table" class="bordered highlight s12 l12">
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Name</th>
+        <th>Owner</th>
+	<th>Buyout</th>
+	<th>Quantity</th>
+        <th>Created at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @auctions.each do |auction| %>
+      <tr>
+        <td><a href="https://www.wowhead.com/item=<%=auction[:item]%>" data-wowhead="item=<%=auction[:item]%>">hai</a></td>
+        <!-- <td></td> -->
+        <td><%= auction[:item] %></td>
+        <td><%= auction[:owner] %></td>
+        <td><%= auction[:buyout] / 1000%></td>
+        <td><%= auction[:quantity] %></td>
+        <td><%= auction[:created_at] %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

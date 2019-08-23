@@ -14,6 +14,33 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
     
+    <script>var whTooltips = {domain: "fr", colorLinks: true, iconizeLinks: true, renameLinks: true,  iconSize: 'medium'};</script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
+
+    
+    <script type="text/javascript">
+      var realms = {
+      <% @realms.each do |region| %>
+      <%= region[0] %>: [
+      <% region[1].each do |realm| %>
+      "<%= realm %>",
+      <% end %>
+      ],
+      <% end %>
+      };
+
+      document.addEventListener('DOMContentLoaded', function() {
+
+      $('#region-select').change(region_change);
+      $("#region-select").val("<%= params[:region] %>");
+      $('#region-select').trigger('change', true);
+      $("#realm-select").val("<%= params[:realm] %>");
+
+      $('select').formSelect();
+      });
+ </script>
+
+    
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>

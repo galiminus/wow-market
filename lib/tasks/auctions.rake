@@ -14,15 +14,46 @@ namespace :auctions do
       puts "done"
       
       puts "\tStoring #{JSON.parse(response.body)['auctions'].size} auctions... "
-      i = 0
-
-      # auctions_by_auc = Auction.where(owner_realm: realm.name).group_by(&:auc)
+      
       auctions = JSON.parse(response.body)['auctions']
 
-      Auction.bulk_insert do |auction_worker|
-        auctions.each do |auction|
-          print "\r#{i}/#{auctions.size}"
+      auctions_by_auc = Auction.where(owner_realm: realm.name).group_by(&:auc)
 
+      existing_auctions_records = {}
+      existing_auctions = []
+      new_auctions = []
+      i = 0
+      auctions.each do |auction|
+        print "\r\tFinding existing auctions: #{i}/#{auctions.size}"
+        if auctions_by_auc.include? auction['auc']
+          existing_auctions_records[auction['auc']] = Auction.find_by auc: auction['auc']
+          existing_auctions << auction
+        else
+          new_auctions << auction
+        end
+        i = i + 1
+      end
+      puts
+      
+      Auction.bulk_insert(set_size: 10000) do |auction_worker|
+
+        i = 0
+        existing_auctions.each do |auction|
+          print "\r\tUpdating existing auctions: #{i}/#{existing_auctions.size}"
+          existing_auction_record = existing_auctions_records[auction['auc']]
+          existing_auction_record['bid'] = auction['bid']
+          existing_auction_record['time_left'] = auction['timeLeft']
+          auction_worker.add(existing_auction_record.attributes)
+          i = i + 1
+        end
+
+        if !existing_auctions.empty?
+          puts
+        end
+        
+        i = 0
+        new_auctions.each do |auction|
+          print "\r\tCreating new auctions: #{i}/#{new_auctions.size}"
           auction_record = Auction.new(auc: auction['auc']).tap do |auction_record|
             auction_record.item = auction['item']
             auction_record.owner = auction['owner']
@@ -35,8 +66,8 @@ namespace :auctions do
             auction_record.created_at = Time.now
             auction_record.updated_at = auction_record.created_at
           end
-          i = i + 1
           auction_worker.add(auction_record.attributes)
+          i = i + 1
         end
       end
       puts

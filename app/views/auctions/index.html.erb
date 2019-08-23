@@ -1,59 +1,58 @@
 <div class="container">
   <h1 class="center-align">WoW Market</h1>
 
+
+
+  <%= render partial: "options" %>
+  
+  <% if !params[:language].blank? && !params[:region].blank? && !params[:realm].blank? %>
+
   <div class="row">
-    <form action="<%= root_path %>" method="get">
-      <div class="input-field col s4">
-	<%= select_tag :language, options_for_select(@locales, params[:language]), include_blank: "Choose your language2" %>
-        <label>Language</label>
-      </div>
-      
-      <div class="input-field col s4">
-        <select name="region" id="region-select">
-          <option value="">Choose your region</option>
-          <% @realms.each do |region| %>
-          <option value="<%= region[0] %>"><%= region[0] %></option>
-          <% end %>
-          </select>
-        <label>Region</label>
-      </div>
-      
-      <div class="input-field col s4">
-        <select name="realm" id="realm-select">
-          <option value="">Choose your realm</option>
-        </select>
-        <label>Realm</label>
-      </div>
-      
-      <div class="row">
-	<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-	  <i class="material-icons right">send</i>
-	</button>
-      </div>
-    </form>
-      
+    <% if @id >= 20 %>
+    <button class="btn waves-effect waves-light col s5" type="submit" name="id" value="<%=@id-20%>" form="main_form">
+      Previous 20
+    </button>
+    <% else %>
+    <label class="col s5"></label>
+    <% end %>
+    
+    <label class="col s2"></label>
+    
+    <button class="btn waves-effect waves-light col s5" type="submit" name="id" value="<%=@id+20%>" form="main_form">
+      Next 20
+    </button>
   </div>
 
-  <%= render partial: "auctions/#{params[:search_type]}", local: { auction: auction } %>
   
   <div class="row">
-    <% @auctions.each do |auction| %>
-    <%= render partial: "auctions/#{params[:search_type]}", local: { auction: auction } %>
-    <% end %>
+    <h4 ><%=@id%>-<%=@id+20%> on <%=@count%></label>
+  </div>
 
-       
-    </div>
+  
+  <div class="row">
+    <table class="grey darken-3" id="auctions_table" class="bordered highlight s12 l12">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Owner</th>
+	  <th>Buyout</th>
+	  <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @auctions.each do |auction| %>
+        <tr>
+          <td><a href="https://www.wowhead.com/item=<%=auction[:item]%>" data-wowhead="item=<%=auction[:item]%>"></a></td>
+          <td><%= auction[:owner] %></td>
+          <td><%= auction[:buyout] / 1000%></td>
+          <td><%= auction[:quantity] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% end %>
   
 </div>
 
-<script type="text/javascript">
- var realms = {
- <% @realms.each do |region| %>
-   <%= region[0] %>: [
-   <% region[1].each do |realm| %>
-     "<%= realm %>",
-   <% end %>
-   ],
- <% end %>
- };
-</script>
