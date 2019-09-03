@@ -10,24 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_30_141332) do
+ActiveRecord::Schema.define(version: 2019_09_02_194811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "auctions", force: :cascade do |t|
-    t.bigint "auc"
+  create_table "auctions", primary_key: ["auc", "realm_id"], force: :cascade do |t|
+    t.bigint "auc", null: false
     t.bigint "item"
     t.string "owner"
     t.string "region"
-    t.string "owner_realm"
     t.integer "quantity"
     t.bigint "buyout"
     t.bigint "bid"
     t.string "time_left"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "owner_realm"
+    t.bigint "realm_id", null: false
     t.index ["auc"], name: "index_auctions_on_auc"
+    t.index ["realm_id"], name: "index_auctions_on_realm_id"
+    t.index ["region"], name: "index_auctions_on_region"
   end
 
   create_table "items", force: :cascade do |t|

@@ -51,8 +51,6 @@ GEM
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.3)
-    bulk_insert (1.7.0)
-      activerecord (>= 3.2.0)
     byebug (11.0.1)
     capybara (3.25.0)
       addressable
@@ -74,6 +72,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    composite_primary_keys (11.2.0)
+      activerecord (~> 5.2.1)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     domain_name (0.5.20190701)
@@ -116,6 +116,10 @@ GEM
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
     pg (1.1.4)
+    postgres-copy (1.4.1)
+      activerecord (>= 5.1)
+      pg (>= 0.17)
+      responders
     public_suffix (3.1.1)
     puma (3.12.1)
     rack (2.0.7)
@@ -152,6 +156,9 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     regexp_parser (1.5.1)
+    responders (3.0.0)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -216,15 +223,16 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
-  bulk_insert
   byebug
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  composite_primary_keys
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   parallel
   pg (>= 0.18, < 2.0)
+  postgres-copy
   puma (~> 3.11)
   rails (~> 5.2.3)
   rest-client
