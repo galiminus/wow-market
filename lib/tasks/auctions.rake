@@ -30,6 +30,7 @@ namespace :auctions do
       auction_urls_file = "#{wdir}/urls.txt"
 
       # On télecharge tout avec aria2
+      raise "aria2 must be installed" if `which ariaw2c`.blank?
       Thread.new do
         loop do
           File.open(auction_urls_file, "wb") do |f|
@@ -37,7 +38,7 @@ namespace :auctions do
           end
 
           # l'option -j permet de mettre une limite haute aux nombre de téléchargement simultané, ca peut valoir le coup de tester d'autres valeurs
-          system("aria2c -q -j 32 -m 0 -d #{wdir} --on-download-complete #{Rails.root}/bin/convert_auctions_json_to_csv.rb -i #{auction_urls_file}")
+          system("aria2c -q -j 8 -m 0 -d #{wdir} --on-download-complete #{Rails.root}/bin/convert_auctions_json_to_csv.rb -i #{auction_urls_file}")
 
           if $? != 0 # Si le programme s'est fini avec une erreur on fait le compte des fichiers qui n'ont pas été dl et on les redemandes, sinon on break
             auction_urls = auction_urls.select do |auction_url, output|
