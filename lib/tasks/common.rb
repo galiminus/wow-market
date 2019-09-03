@@ -26,7 +26,7 @@ def app_auth(region, client_id, client_secret)
       exit 1
     end
     
-    print "getting access token... "
+    print "getting access token...".ljust(40)
     access_token = blizz_auth(region, client_id, client_secret)
     if access_token.empty?
       exit 2

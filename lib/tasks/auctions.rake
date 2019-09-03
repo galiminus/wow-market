@@ -14,7 +14,7 @@ namespace :auctions do
       # c'est pas super propre de faire passer de l'information en utilisant un nom de fichier, mais j'ai pas d'autres idées
       auction_urls = realms.map do |realm|
         begin
-          print "\rgetting auctions file url for ".ljust(60) + "#{realm.region}/#{realm.name}".ljust(60)
+          print "\rgetting auctions file url for ".ljust(40) + "#{realm.region}/#{realm.name}".ljust(60)
           response = RestClient.get "https://#{realm.region}.api.blizzard.com/wow/auction/data/#{realm.slug}?locale=en_GB&access_token=#{access_token}"
           [ JSON.parse(response.body)['files'][0]['url'], "auctions-#{realm.region}-#{realm.id}.json" ]
         rescue => error
@@ -30,7 +30,7 @@ namespace :auctions do
       auction_urls_file = "#{wdir}/urls.txt"
 
       # On télecharge tout avec aria2
-      raise "aria2 must be installed" if `which ariaw2c`.blank?
+      raise "aria2 must be installed" if `which aria2c`.blank?
       Thread.new do
         loop do
           File.open(auction_urls_file, "wb") do |f|
@@ -58,7 +58,7 @@ namespace :auctions do
           File.exists?("#{wdir}/#{output.gsub(/json$/, 'csv')}")
         end
 
-        print "\rgenerating auctions CSVs".ljust(60) + "#{csv_files.size}/#{auction_urls.count}".ljust(60)
+        print "\rgenerating auctions CSVs".ljust(40) + "#{csv_files.size}/#{auction_urls.count}".ljust(60)
         break if csv_files.size == auction_urls.size
       end
       puts
@@ -71,7 +71,7 @@ namespace :auctions do
         system("cat #{auctions_csv} >> #{csv_file}")
         File.unlink auctions_csv
 
-        print "\rbundling".ljust(60) + "#{index + 1}/#{auction_urls.count}".ljust(60)
+        print "\rbundling".ljust(40) + "#{index + 1}/#{auction_urls.count}".ljust(60)
       end
       puts
 
